@@ -27,8 +27,59 @@ All other: Always returns true
 Windows: 默认使用 Vulkan and GLES
 Linux: 默认使用 Vulkan and GLES
 
-### any_backend_feature_enabled
+### new
 
 ```rust
 pub fn new(_instance_desc: InstanceDescriptor) -> Self
+```
+
+### from_hal
+
+```rust
+unsafe fn from_hal<A: HalApi>(hal_instance: A::Instance) -> Self
+```
+
+### as_hal
+
+```rust
+pub unsafe fn as_hal<A: HalApi>(&self) -> Option<&A::Instance>
+```
+
+### from_core
+
+```rust
+pub unsafe fn from_core(core_instance: Instance) -> Self
+```
+
+### enumerate_adapters
+
+```rust
+pub fn enumerate_adapters(&self, backends: Backends) -> Vec<Adapter>
+```
+
+### request_adapter
+
+```rust
+pub fn request_adapter(
+    &self,
+    options: &RequestAdapterOptions<'_, '_>
+) -> impl Future<Output = Option<Adapter>> + WasmNotSend
+```
+
+### create_adapter_from_hal
+
+```rust
+pub unsafe fn create_adapter_from_hal<A: HalApi>(
+    &self,
+    hal_adapter: ExposedAdapter<A>
+) -> Adapter
+```
+
+###
+
+```rust
+pub fn create_surface<'window>(
+    &self,
+    target: impl Into<SurfaceTarget<'window>>
+) -> Result<Surface<'window>, CreateSurfaceError>
 ```
